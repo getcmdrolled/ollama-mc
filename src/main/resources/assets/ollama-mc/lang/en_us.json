@@ -1,0 +1,8 @@
+{
+    "text.autoconfig.ollama-mc.title": "OllamaMC Config",
+    "text.autoconfig.ollama-mc.option.Enabled": "Enabled",
+    "text.autoconfig.ollama-mc.option.Model": "Model",
+    "text.autoconfig.ollama-mc.option.ModelName": "Name",
+    "text.autoconfig.ollama-mc.option.Host": "Host",
+    "text.autoconfig.ollama-mc.option.SystemPrompt": "System Prompt"
+}
