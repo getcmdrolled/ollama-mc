@@ -86,7 +86,7 @@ public class Ollama {
             OllamaMc.LOGGER.info("[" + OllamaMc.CONFIG.get().ModelName + "]: " + responseString);
             if (!(responseString.contains("§")) && !(responseString.contains(newLine)) && (responseString.length() <= 240)) {
                 OllamaMc.CLIENT.player.networkHandler.sendChatMessage("[" + OllamaMc.CONFIG.get().ModelName + "]: " + responseString);
-                messages.add(new OllamaChatMessage("ASSISTANT", "@" + OllamaMc.CONFIG.get().ModelName + ": " + responseString));
+                messages.add(new OllamaChatMessage("ASSISTANT", responseString));
             } else {
                 OllamaMc.CLIENT.player.networkHandler.sendChatMessage("[" + OllamaMc.CONFIG.get().ModelName + "]: [error: response didn't follow guidelines]");
             }
