@@ -8,8 +8,7 @@
 		"GetCmdRolled"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/turtletown73/ollama-mc"
 	},
 	"license": "GPL-2.0",
 	"icon": "assets/ollama-mc/icon.png",
