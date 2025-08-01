@@ -84,6 +84,7 @@ public class Ollama {
 
             String newLine = System.getProperty("line.separator");
             OllamaMc.LOGGER.info("[" + OllamaMc.CONFIG.get().ModelName + "]: " + responseString);
+            responseString = responseString.replaceAll(newLine, "[n]");
             if (!(responseString.contains("§")) && !(responseString.contains(newLine)) && (responseString.length() <= 240)) {
                 OllamaMc.CLIENT.player.networkHandler.sendChatMessage("[" + OllamaMc.CONFIG.get().ModelName + "]: " + responseString);
                 messages.add(new OllamaChatMessage("ASSISTANT", responseString));

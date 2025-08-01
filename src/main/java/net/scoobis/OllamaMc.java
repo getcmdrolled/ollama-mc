@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.text.Text;
 
 import org.slf4j.Logger;
@@ -33,11 +34,18 @@ public class OllamaMc implements ModInitializer {
 		ClientReceiveMessageEvents.GAME.register(Ollama::onChatMessage);
 		
 		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
-			dispatcher.register(ClientCommandManager.literal("ollamaresetconvo").executes(context -> {
-				Ollama.resetMessages();
-				context.getSource().sendFeedback(Text.of("Ollama conversation reset"));
-				return 1;
-			}));
+			dispatcher.register(ClientCommandManager.literal("ollama")
+				.then(ClientCommandManager.literal("config").executes(context -> {
+					GameMenuScreen gameMenuScreen = new GameMenuScreen(true);
+					CLIENT.send(() -> CLIENT.setScreen(AutoConfig.getConfigScreen(OllamaMcConfig.class, gameMenuScreen).get()));
+					return 1;
+				}))
+				.then(ClientCommandManager.literal("resetconversation").executes(context -> {
+					Ollama.resetMessages();
+					context.getSource().sendFeedback(Text.of("Ollama conversation reset"));
+					return 1;
+				}))
+			);
 		});
 	}
 }
