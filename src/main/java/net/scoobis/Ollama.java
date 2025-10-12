@@ -53,7 +53,7 @@ public class Ollama {
             if (username == "") {
                 messages.add(new OllamaChatMessage("USER", message));
             } else {
-                messages.add(new OllamaChatMessage("USER", "[Username: " + username + "]" + message));
+                messages.add(new OllamaChatMessage("USER", "[User: " + username + "] " + message));
             }
             
             OllamaChatRequest chatRequest = new OllamaChatRequest(OllamaMc.CONFIG.get().Model, messages);
@@ -111,20 +111,27 @@ public class Ollama {
 
     public static void onChatMessage(Text message2, boolean overlay) {
         ClientPlayerEntity playerEntity = OllamaMc.CLIENT.player;
-        if (playerEntity != null && playerEntity.networkHandler != null && playerEntity.networkHandler.getServerInfo().getServerType() == ServerType.OTHER && OllamaMc.CONFIG.get().Enabled && playerEntity.networkHandler.getConnection().isEncrypted() == true) {
-            message = message2.getString();
-            if ((message.contains("[" + OllamaMc.CONFIG.get().ModelName + "]") == false) && message.contains(OllamaMc.CONFIG.get().ModelName) && thinking == false) {
-                if (message2.getString().contains(": ")) {
-                    message = message2.getString().replaceAll(message2.getString().split(" ")[0], "");
-                    username = message2.getString().split(" ")[0].replaceAll(":", "");
+        if (playerEntity != null && playerEntity.networkHandler != null && playerEntity.networkHandler.getServerInfo().getServerType() == ServerType.OTHER && playerEntity.networkHandler.getServerInfo().isLocal() == false && OllamaMc.CONFIG.get().Enabled && playerEntity.networkHandler.getConnection().isEncrypted() == true) {
+            message = message2.getString().toLowerCase();
+            if ((message.contains("[" + OllamaMc.CONFIG.get().ModelName.toLowerCase() + "]") == false) && message.contains(OllamaMc.CONFIG.get().ModelName.toLowerCase()) && thinking == false) {
+                if (message2.getString().contains("> ") && message2.getString().startsWith("<")) {
+                    message = message2.getString().replaceFirst(message2.getString().split("> ")[0], "").replaceFirst(">", "");
+                    username = message2.getString().split("> ")[0].replaceFirst("<", "");
 
                     message = message.replaceAll(OllamaMc.CONFIG.get().ModelName, "");
                     message = message.replaceAll("  ", " ");
                     Executors.newSingleThreadExecutor().execute(onMessageRunnable);
                 }
-                if (message2.getString().contains("> ") && message2.getString().startsWith("<")) {
-                    message = message2.getString().replaceFirst(message2.getString().split(" ")[0], "");
-                    username = message2.getString().split(" ")[0].replaceAll("<", "").replaceAll(">", "");
+                else if (message2.getString().contains(": ")) {
+                    message = message2.getString().replaceFirst(message2.getString().split(": ")[0], "").replaceFirst(": ", "");
+                    username = message2.getString().split(": ")[0];
+
+                    message = message.replaceAll(OllamaMc.CONFIG.get().ModelName, "");
+                    message = message.replaceAll("  ", " ");
+                    Executors.newSingleThreadExecutor().execute(onMessageRunnable);
+                } else if (message2.getString().contains(" » ")) {
+                    message = message2.getString().replaceFirst(message2.getString().split(" » ")[0], "").replaceFirst(" » ", "");
+                    username = message2.getString().split(" » ")[0];
 
                     message = message.replaceAll(OllamaMc.CONFIG.get().ModelName, "");
                     message = message.replaceAll("  ", " ");
