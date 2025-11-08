@@ -5,7 +5,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 
 import me.shedaniel.autoconfig.AutoConfig;
 
-public class ModMenuImpl implements ModMenuApi {
+public class OllamaModMenuImpl implements ModMenuApi {
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> AutoConfig.getConfigScreen(OllamaMcConfig.class, parent).get();
