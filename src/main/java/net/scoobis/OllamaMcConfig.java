@@ -9,5 +9,5 @@ public class OllamaMcConfig implements ConfigData {
     String Model = "llama3.1:latest";
     String ModelName = "@ollama";
     String Host = "http://localhost:11434/";
-    String SystemPrompt = "You are an LLM.";
+    String SystemPrompt = "You are an LLM within the game minecraft.";
 }
